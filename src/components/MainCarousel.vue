@@ -3,9 +3,9 @@
     <div class="container">
       <transition-group name="fade" tag="div" class="fade">
         <div class="fade-item" v-for="(item,index) in fadeItems" v-show="index === curIndex" :key="index">
-          <a :href="item.link">
+<!--          <a :href="item.link">-->
             <img :src="item.imgUrl" alt="">
-          </a>
+<!--          </a>-->
         </div>
       </transition-group>
       <div class="play-pre" @click="playPre">
@@ -28,11 +28,12 @@ export default {
       curIndex: 0,
       timeId: '',
       fadeItems: [
-        {imgUrl: './static/img/xmad-1.jpg', link: 'https://item.mi.com/buyphone/redmi4x'},
-        {imgUrl: './static/img/xmad-2.jpg', link: 'https://item.mi.com/product/10000030.html'},
-        {imgUrl: './static/img/xmad-3.jpg', link: 'https://item.mi.com/product/10000029.html'},
-        {imgUrl: './static/img/xmad-4.jpg', link: 'https://www.mi.com/buytv/'},
-        {imgUrl: './static/img/xmad-5.jpg', link: 'https://www.mi.com/mibookair/'}
+        {imgUrl: './static/img/fruitVegetable.jpg', link: ''},
+        {imgUrl: './static/img/biandang.jpg', link: ''}
+        // {imgUrl: './static/img/xmad-2.jpg', link: 'https://item.mi.com/product/10000030.html'},
+        // {imgUrl: './static/img/xmad-3.jpg', link: 'https://item.mi.com/product/10000029.html'},
+        // {imgUrl: './static/img/xmad-4.jpg', link: 'https://www.mi.com/buytv/'},
+        // {imgUrl: './static/img/xmad-5.jpg', link: 'https://www.mi.com/mibookair/'}
       ]
     }
   },

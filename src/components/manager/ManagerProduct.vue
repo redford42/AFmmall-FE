@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div style="display: inline"><el-button type="primary" @click.native="getCurProductDetail()">新增</el-button></div>
+    <div style="float: right;width: 30%;margin-bottom: 20px">
+      <el-input style="width: 70%;" v-model="searchText"></el-input>
+      <el-button @click.native="searchProduct()">搜索</el-button>
+    </div>
     <el-table
       :data="tableData"
       stripe
@@ -24,6 +29,9 @@
       <el-table-column
       prop="status"
       label="状态">
+        <template slot-scope="scope">
+          {{scope.row.status === 1? '可用':'禁用'}}
+        </template>
     </el-table-column>
       <el-table-column
         prop="mainImage"
@@ -34,11 +42,18 @@
       >
         <template slot-scope="scope">
           <el-button @click.native="getCurProductDetail(scope.row.id)">修改</el-button>
-          <el-button>删除</el-button>
+          <el-button @click.native="deleteProduct(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <manager-product-detail ref="$productDetail" :product="productDetail"></manager-product-detail>
+    <el-pagination
+      :current-page.sync="pageNum"
+      background
+      @current-change="changePageNum"
+      layout="prev, pager, next"
+      :total="1000">
+    </el-pagination>
+    <manager-product-detail ref="$productDetail" :product="productDetail" @refresh="refreshList"></manager-product-detail>
   </div>
 </template>
 
@@ -50,6 +65,7 @@ export default {
   components: {ManagerProductDetail},
   data () {
     return {
+      searchText: '',
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -67,25 +83,61 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
-      productDetail: null
+      productDetail: null,
+      pageNum: 1
     }
   },
   async mounted () {
-    let {data} = await this.getManagerProductList()
-    this.tableData = data.list
-    console.log('看看这个神奇的data', data)
+    this.refreshList()
   },
   methods: {
     ...mapActions('productAPI', [
-      'getManagerProductList', 'getManagerProductDetail'
+      'getManagerProductList', 'getManagerProductDetail', 'deleteManagerProduct', 'searchManagerProduct'
     ]),
-    getCurProductDetail (productId) {
-      console.log(productId)
-      this.getManagerProductDetail(productId).then(data => {
-        console.log(data)
-        this.productDetail = data
-        this.$refs.$productDetail.showProduct(data)
+    deleteProduct (productId) {
+      this.deleteManagerProduct(productId).then(data => {
+        this.refreshList()
       })
+    },
+    searchProduct () {
+      if (this.searchText === '') {
+        this.refreshList()
+      } else {
+        var data = {
+          productName: this.searchText,
+          pageNum: this.pageNum,
+          pageSize: 8
+        }
+        this.searchManagerProduct(data).then(data => {
+          console.log('searchManagerProduct', data.list)
+          this.tableData = data.list
+        })
+      }
+    },
+    changePageNum () {
+      console.log(this.pageNum)
+      this.refreshList(this.pageNum)
+    },
+    async refreshList (currentPage) {
+      let {data} = await this.getManagerProductList({pageNum: currentPage || this.pageNum, pageSize: 8})
+      this.tableData = data.list
+    },
+    getCurProductDetail (productId) {
+      if (productId === undefined) {
+        this.$refs.$productDetail.showProduct({
+          id: null,
+          name: '',
+          categoryId: '',
+          status: 1,
+          detail: '',
+          imageHost: ''
+        })
+      } else {
+        this.getManagerProductDetail(productId).then(data => {
+          this.productDetail = data
+          this.$refs.$productDetail.showProduct(data)
+        })
+      }
     }
   }
 }

@@ -5,6 +5,7 @@ import ManageIndexPage from '../pages/ManageIndexPage'
 import ManagerProduct from '../components/manager/ManagerProduct'
 import ManagerUser from '../components/manager/ManagerUser'
 import ManagerOrder from '../components/manager/ManagerOrder'
+import ManagerCategory from '../components/manager/ManagerCategory'
 Vue.use(Router)
 
 export default new Router({
@@ -20,6 +21,10 @@ export default new Router({
         {
           path: 'product',
           component: ManagerProduct
+        },
+        {
+          path: 'category',
+          component: ManagerCategory
         },
         {
           path: 'user',

@@ -4,9 +4,9 @@
       <main-nav></main-nav>
       <main-carousel></main-carousel>
       <main-recommend></main-recommend>
-      <div class="main-page">
-          <goods></goods>
-      </div>
+<!--      <div class="main-page">-->
+<!--          <goods></goods>-->
+<!--      </div>-->
     </div>
   </div>
 </template>

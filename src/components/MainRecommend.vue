@@ -2,15 +2,15 @@
   <div class="main-recommend">
     <div class="activities">
       <div class="item" v-for="(item,index) in activities" :key="index">
-        <a :href="item.link">
+        <a :href="item.link" target="_blank">
           <img class="icon" :src="item.imgUrl" alt="">
           <span class="text">{{item.title}}</span>
         </a>
       </div>
     </div>
-    <div class="rec-item" v-for="(item,index) in recommend" :key="index">
-      <a :href="item.link"><img :src="item.imgUrl" alt=""></a>
-    </div>
+<!--    <div class="rec-item" v-for="(item,index) in recommend" :key="index">-->
+<!--      <a :href="item.link"><img :src="item.imgUrl" alt=""></a>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -19,12 +19,12 @@ export default {
   data () {
     return {
       activities: [
-        {title: '充公交卡', imgUrl: './static/img/buyphone.png', link: 'https://www.mi.com/compare/'},
-        {title: '快递收寄', imgUrl: './static/img/gift.png', link: 'http://qiye.mi.com/'},
-        {title: '一元活动', imgUrl: './static/img/one.png', link: 'https://1.hd.mi.com/'},
-        {title: '水电缴费', imgUrl: './static/img/sim.png', link: 'https://www.mi.com/mimobile/'},
-        {title: '租充电宝', imgUrl: './static/img/renew.png', link: 'https://huanxin.mi.com/'},
-        {title: '话费充值', imgUrl: './static/img/chongzhi.png', link: 'http://recharge.10046.mi.com/'}
+        {title: '充公交卡', imgUrl: './static/img/buyphone.png', link: 'http://www.cdtft.cn/'},
+        {title: '快递收寄', imgUrl: './static/img/gift.png', link: 'https://xiaoyuan.cainiao.com/'},
+        // {title: '一元活动', imgUrl: './static/img/one.png', link: 'https://1.hd.mi.com/'},
+        {title: '水电缴费', imgUrl: './static/img/sim.png', link: 'https://jiaofei.alipay.com/jiaofei.htm'},
+        {title: '租充电宝', imgUrl: './static/img/renew.png', link: 'http://www.enmonster.com/guiji.html'},
+        {title: '话费充值', imgUrl: './static/img/chongzhi.png', link: 'https://chongzhi.jd.com/'}
       ],
       recommend: [
         {imgUrl: './static/img/xmad_1.jpg', link: 'https://item.mi.com/product/10000024.html'},

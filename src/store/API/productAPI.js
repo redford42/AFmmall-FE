@@ -1,5 +1,6 @@
 import request from '../../api/request'
 import axios from 'axios'
+// import qs from 'qs'
 export default {
   namespaced: true,
   state: {
@@ -31,9 +32,29 @@ export default {
           }).catch(reject)
       })
     },
-    getManagerProductList ({commit}) {
+
+    searchManagerProduct ({commit}, data) {
       return new Promise((resolve, reject) => {
-        request.get('/manage/product/list.do')
+        request.get('/manage/product/search.do', {
+          params: {
+            productName: data.productName || null,
+            pageNum: data.pageNum,
+            pageSize: data.pageSize
+          }
+        })
+          .then((result) => {
+            return resolve(result.data)
+          }).catch(reject)
+      })
+    },
+    getManagerProductList ({commit}, data) {
+      return new Promise((resolve, reject) => {
+        request.get('/manage/product/list.do', {
+          params: {
+            pageNum: data.pageNum,
+            pageSize: data.pageSize
+          }
+        })
           .then((result) => {
             return resolve(result)
           }).catch(reject)
@@ -51,6 +72,16 @@ export default {
           }).catch(reject)
       })
     },
+    setManagerProduct ({commit}, product) {
+      console.log(product)
+      return new Promise((resolve, reject) => {
+        request.post('/manage/product/save.do', product
+        ).then((result) => {
+          console.log(result)
+          return resolve(result.data)
+        }).catch(reject)
+      })
+    },
     setManagerProductPhoto ({commit}, file) {
       let param = new FormData()
       param.append('name', file.name)
@@ -62,6 +93,18 @@ export default {
           .then(result => {
             console.log('productPhoto', result)
             return resolve(result.data.data)
+          }).catch(reject)
+      })
+    },
+    deleteManagerProduct ({commit}, productId) {
+      return new Promise((resolve, reject) => {
+        request.get('/manage/product/delete.do', {
+          params: {
+            productId: productId
+          }
+        })
+          .then((result) => {
+            return resolve(result.data)
           }).catch(reject)
       })
     }

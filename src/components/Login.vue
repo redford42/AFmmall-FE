@@ -3,9 +3,9 @@
     <el-dialog
     :visible="visible"
     @close="handleClose"
-    width="20%"
+    width="30%"
     >
-      <p style="text-align: center">登陆呀</p>
+      <p style="text-align: center">登陆界面</p>
       <div style="text-align: center;;margin-top: 20px">
         <div style="margin-bottom: 20px">
           <span style="margin-right: 10px">账号:</span>
@@ -30,8 +30,8 @@ export default {
   data () {
     return {
       loginForm: {
-        user: 'admin',
-        pass: '88'
+        user: 'testtest',
+        pass: '123'
       },
       visible: false
     }
@@ -48,7 +48,7 @@ export default {
     ...mapActions('cartAPI', [
       'getCartList'
     ]),
-    showLogin () {
+    show () {
       this.visible = true
     },
     handleClose () {
@@ -56,9 +56,9 @@ export default {
     },
     login () {
       this.userLogin(this.loginForm).then(data => {
-        console.log(data)
-        if (data.role === 1) {
-          this.$router.push('/manager')
+        console.log('check', data)
+        if (data.data.role === 1) {
+          this.$router.push('/manager/product')
         }
         if (data !== null) {
           console.log(this.userName)
@@ -72,6 +72,6 @@ export default {
 
 <style scoped>
 .input{
-  width: 40%;
+  width: 60%;
 }
 </style>

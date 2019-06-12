@@ -5,6 +5,7 @@ import userAPI from './API/userAPI'
 import productAPI from './API/productAPI'
 import cartAPI from './API/cartAPI'
 import orderAPI from './API/orderAPI'
+import shippingAPI from './API/shippingAPI'
 Vue.use(Vuex)
 
 const state = {
@@ -28,7 +29,8 @@ export default new Vuex.Store({
     userAPI,
     productAPI,
     cartAPI,
-    orderAPI
+    orderAPI,
+    shippingAPI
   },
   state,
   mutations

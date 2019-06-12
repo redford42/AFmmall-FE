@@ -12,7 +12,7 @@
         <ul class="nav-list" v-if="userName === ''">
           <li @click="login">登陆</li>
           <li class="nav-pile">|</li>
-          <li>注册</li>
+          <li @click="register">注册</li>
           <li class="nav-pile">|</li>
           <li>关于</li>
         </ul>
@@ -22,19 +22,20 @@
               <span style="color: #ffffff;">{{userName}}</span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="setUserInfo">修改信息</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
+                <el-dropdown-item @click.native="setUserPass">修改密码</el-dropdown-item>
+                <el-dropdown-item  @click.native="showUserShipping">收货地址</el-dropdown-item>
                 <el-dropdown-item @click.native="userLogout">登出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
           <li class="nav-pile">|</li>
-          <li>我的订单</li>
+          <li @click="showUserOrder">我的订单</li>
           <li class="nav-pile">|</li>
           <li>
             <el-dropdown>
               <i class="el-icon-goods" @click="getCartList" style="color: #ffffff;"></i>
               <el-dropdown-menu slot="dropdown">
-                <user-cart v-if="cartList" :current-cart-list="cartList.cartProductVoList"></user-cart>
+                <user-cart v-if="cartList" :current-cart-list="cartList.cartProductVoList" v-on:showUserPay="showUserPay"></user-cart>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -42,6 +43,12 @@
       </div>
     </div>
     <login ref="userLogin"></login>
+    <user-menu ref="userMenu"></user-menu>
+    <user-pass ref="userPass"></user-pass>
+    <user-register ref="userRegister"></user-register>
+    <user-pay ref="userPay"  v-if="cartList" :current-cart-list="cartList.cartProductVoList"></user-pay>
+    <user-order ref="userOrder"></user-order>
+    <user-shipping ref="userShipping"></user-shipping>
   </div>
 </template>
 
@@ -50,11 +57,21 @@ import Login from '../components/Login'
 import {mapState, mapActions} from 'vuex'
 import UserCart from './UserCart'
 import UserMenu from './UserMenu'
+import UserRegister from './UserRegister'
+import UserPay from './UserPay'
+import UserOrder from './UserOrder'
+import UserShipping from './UserShipping'
+import UserPass from './UserPass'
 export default {
   components: {
+    UserShipping,
+    UserOrder,
+    UserRegister,
     Login,
     UserMenu,
-    UserCart
+    UserCart,
+    UserPay,
+    UserPass
   },
   data () {
     return {
@@ -74,6 +91,8 @@ export default {
       'cartList'
     ])
   },
+  mounted () {
+  },
   methods: {
     ...mapActions('cartAPI', [
       'getCartList'
@@ -82,6 +101,12 @@ export default {
       'userLogout',
       'getUserInfo'
     ]),
+    ...mapActions('orderAPI', [
+      'listOrder'
+    ]),
+    ...mapActions('shippingAPI', [
+      'getShippingList'
+    ]),
     cartEnter: function () {
       this.cartStatus = true
     },
@@ -89,12 +114,41 @@ export default {
       this.cartStatus = false
     },
     login () {
-      this.$refs.userLogin.showLogin()
+      this.$refs.userLogin.show()
+    },
+    register () {
+      this.$refs.userRegister.show(null)
     },
     setUserInfo () {
       this.getUserInfo().then(data => {
         this.userInfos = data
-        this.$refs.userMenu.show()
+        console.log('setUserInfo', data)
+        this.$refs.userMenu.show(data)
+      })
+    },
+    setUserPass () {
+      this.$refs.userPass.show()
+    },
+    showUserPay () {
+      this.getCartList().then(data => {
+        console.log(data)
+        this.getShippingList().then(dataT => {
+          this.$refs.userPay.show(data)
+        })
+      })
+    },
+    showUserOrder () {
+      this.listOrder({
+        pageNum: 1,
+        pageSize: 5
+      }).then(data => {
+        console.log(data)
+        this.$refs.userOrder.show(data.list)
+      })
+    },
+    showUserShipping () {
+      this.getShippingList().then(data => {
+        this.$refs.userShipping.show(data)
       })
     }
   }

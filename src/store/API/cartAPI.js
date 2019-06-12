@@ -36,6 +36,18 @@ export default {
             return resolve(result.data)
           }).catch(reject)
       })
+    },
+    updateCartList ({commit}, {productId, count}) {
+      return new Promise((resolve, reject) => {
+        request.get('/user/cart/update.do', {
+          params: {
+            count: count,
+            productId: productId
+          }
+        }).then(data => {
+          console.log(data)
+        })
+      })
     }
   }
 }

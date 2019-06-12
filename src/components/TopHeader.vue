@@ -12,27 +12,27 @@
           </li>
         </ul>
       </div>
-      <div class="header-search"
-          @mouseenter="searchEnter"
-          @mouseleave="searchLeave">
-        <form>
-          <input class="search-text" type="search"
-              @focus="inputFocus" @blur="inputBlur"
-              :class="{'search-focus': isFocus,'search-enter': isEnter}"
-          >
-          <label class="search-btn" value=""
-              :class="{'search-focus': isFocus,'search-enter': isEnter}"
-          >
-            <span class="icon"></span>
-          </label>
-        </form>
-<!--        <ul class="search-result" v-show="isFocus">-->
-<!--          <li v-for="(item,index) in results"  :key="index">-->
-<!--            <span class="item-name">{{item.name}}</span>-->
-<!--            <span class="item-num">约有{{item.number}}件</span>-->
-<!--          </li>-->
-<!--        </ul>-->
-      </div>
+<!--      <div class="header-search"-->
+<!--          @mouseenter="searchEnter"-->
+<!--          @mouseleave="searchLeave">-->
+<!--        <form>-->
+<!--          <input class="search-text" type="search"-->
+<!--              @focus="inputFocus" @blur="inputBlur"-->
+<!--              :class="{'search-focus': isFocus,'search-enter': isEnter}"-->
+<!--          >-->
+<!--          <label class="search-btn" value=""-->
+<!--              :class="{'search-focus': isFocus,'search-enter': isEnter}"-->
+<!--          >-->
+<!--            <span class="icon"></span>-->
+<!--          </label>-->
+<!--        </form>-->
+<!--&lt;!&ndash;        <ul class="search-result" v-show="isFocus">&ndash;&gt;-->
+<!--&lt;!&ndash;          <li v-for="(item,index) in results"  :key="index">&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="item-name">{{item.name}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="item-num">约有{{item.number}}件</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--      </div>-->
     </div>
     <div class="header-menu" v-show="(selected !== '') && (isNavEnter || isMenuEnter)" @mouseenter="isMenuEnter = true" @mouseleave="isMenuEnter = false">
       <ul v-for="(item,index) in navItems" v-show="item.type === selected"  :key="index">

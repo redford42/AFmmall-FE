@@ -29,9 +29,6 @@ export default {
     this.getCategoryList().then(data => {
       console.log('??', data)
     })
-    this.getCartList().then(cart => {
-      console.log('?????', cart)
-    })
   },
   data () {
     return {

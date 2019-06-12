@@ -14,18 +14,18 @@ export default {
     ])
   },
   mounted () {
-    this.getCategoryList().then(async () => {
-      for (var category in this.categoryList) {
-        var {data} = await this.getProductList({
-          categoryId: this.categoryList[category].id,
-          pageNum: 1,
-          pageSize: 999
-        })
-        this.categoryList[category].products = data.list
-        console.log(data)
-      }
-      console.log('看看我们组装的category', this.categoryList)
-    })
+    // this.getCategoryList().then(async () => {
+    //   for (var category in this.categoryList) {
+    //     var {data} = await this.getProductList({
+    //       categoryId: this.categoryList[category].id,
+    //       pageNum: 1,
+    //       pageSize: 999
+    //     })
+    //     this.categoryList[category].products = data.list
+    //     console.log(data)
+    //   }
+    //   console.log('看看我们组装的category', this.categoryList)
+    // })
   },
   methods: {
     ...mapActions('productAPI', [
@@ -33,6 +33,9 @@ export default {
     ]),
     ...mapActions('categoryAPI', [
       'getCategoryList'
+    ]),
+    ...mapActions('shippingAPI', [
+      'getShippingList'
     ])
   }
 }

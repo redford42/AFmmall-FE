@@ -5,10 +5,19 @@
     @close="handleClose"
     width="40%">
     <div class="test">
-      <div class="product" v-for="(product, index) in productList" :key="index">
-        <p class="product-name">{{product.name}}</p>
-        <div class="img"></div>
-        <button @click="addProductToCart(product)" class="buying-button">加入购物车</button>
+      <div class="img">
+        <img :src="product.imageHost +  product.mainImage" style="float: left;width: 200px;height: 200px;">
+      </div>
+      <div style="display: inline-block;width: 200px;height: 200px;margin-left: 20px" >
+        <p class="product-name">商品名称：{{product.name}}</p>
+        <p class="product-name">商品价格：{{product.price}}</p>
+        <p class="product-name">库存：{{product.stock}}</p>
+      </div>
+      <div>
+        <template>
+          <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1" :max="product.stock" style="width: 170px"></el-input-number>
+        </template>
+        <el-button @click="addProductToCart(product)" class="buying-button">加入购物车</el-button>
       </div>
     </div>
   </el-dialog>
@@ -20,11 +29,12 @@ import {mapState, mapActions} from 'vuex'
 export default {
   name: 'UserProduct',
   props: {
-    productList: null
+    product: null
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      num: 1
     }
   },
   computed: {
@@ -36,18 +46,23 @@ export default {
     ...mapActions('cartAPI', [
       'addCartList'
     ]),
-    showProduct () {
+    show (data) {
+      this.product = data
       this.visible = true
     },
     handleClose () {
       this.visible = false
     },
-    addProductToCart (product) {
+    handleChange (value) {
+      console.log(value)
+    },
+    addProductToCart (data) {
       if (this.userName !== '') {
-        console.log(product)
         this.addCartList({
-          productId: product.id,
-          count: 1})
+          productId: data.id,
+          count: this.num}).then(data => {
+          this.handleClose()
+        })
       } else {
         console.log('没登陆')
       }
@@ -77,12 +92,12 @@ export default {
     background-color: white;
   }
   .img{
-    width: 190px;
+    display: inline-block;
+    width: 200px;
     height: 200px;
-    background-color: grey;
-    margin: auto;
+    border: 1px solid grey;
   }
   .buying-button{
-    margin-top: 10px;
+    margin-top: 30px;
   }
 </style>

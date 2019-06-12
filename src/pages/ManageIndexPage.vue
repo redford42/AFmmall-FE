@@ -12,19 +12,19 @@
         @open="handleOpen"
         @select="handleSelect"
         @close="handleClose">
-        <el-menu-item index="/home">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">首页</span>
-          </template>
-        </el-menu-item>
+<!--        <el-menu-item index="/home">-->
+<!--          <template slot="title">-->
+<!--            <i class="el-icon-location"></i>-->
+<!--            <span slot="title">首页</span>-->
+<!--          </template>-->
+<!--        </el-menu-item>-->
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-menu"></i>
             <span slot="title">商品</span>
           </template>
           <el-menu-item index="/product">商品管理</el-menu-item>
-          <el-menu-item index="2-2">品类管理</el-menu-item>
+          <el-menu-item index="/category">品类管理</el-menu-item>
         </el-submenu>
         <el-submenu index="3" >
           <template slot="title">
@@ -42,7 +42,7 @@
         </el-submenu>
       </el-menu>
     </el-aside>
-    <el-main>
+    <el-main :style="{height:bodyHeight+ 'px'}">
       <router-view></router-view>
     </el-main>
   </el-container>
@@ -54,15 +54,13 @@ export default {
   name: 'ManageIndexPage',
   data () {
     return {
-      bodyHeight: 800
+      bodyHeight: 751
     }
   },
   mounted () {
     this.getCategoryList()
-    window.onresize(() => {
-      this.bodyHeight = document.body.offsetHeight
-      console.log('height', document.body.offsetHeight)
-    })
+    console.log('document.body.offsetHeight', document.body.offsetHeight)
+    this.bodyHeight = window.innerHeight
   },
   methods: {
     ...mapActions('categoryAPI', ['getCategoryList']),

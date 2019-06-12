@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div style="display: inline"><el-button type="primary" @click.native="addUser()">新增</el-button></div>
+    <div style="float: right;width: 30%;margin-bottom: 20px">
+      <el-input style="width: 70%;"></el-input>
+      <el-button>搜索</el-button>
+    </div>
     <el-table
       :data="tableData"
       stripe
@@ -35,22 +40,35 @@
       </el-table-column>
       <el-table-column
         label="操作"
+        width="200"
       >
         <template slot-scope="scope">
-          <el-button @click.native="getCurProductDetail(scope.row.id)">修改</el-button>
+          <el-button @click.native="updateUser(scope.row)">修改</el-button>
           <el-button>删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      :current-page.sync="pageNum"
+      background
+      @current-change="changePageNum"
+      layout="prev, pager, next"
+      :total="1000">
+    </el-pagination>
+    <user-register ref="userRegister" :is-manager="isTrue"></user-register>
   </div>
 </template>
 
 <script>
 import {mapActions} from 'vuex'
+import UserRegister from '../UserRegister'
 export default {
   name: 'ManagerUser',
+  components: {UserRegister},
   data () {
     return {
+      isTrue: true,
+      pageNum: 1,
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -76,7 +94,22 @@ export default {
     console.log('看看这个神奇的data', data)
   },
   methods: {
-    ...mapActions('userAPI', ['getUserList'])
+    ...mapActions('userAPI', ['getUserList']),
+    addUser () {
+      this.$refs.userRegister.show(null)
+    },
+    changePageNum () {
+      console.log(this.pageNum)
+      this.refreshList(this.pageNum)
+    },
+    async refreshList (currentPage) {
+      let {data} = await this.getUserList({pageNum: currentPage || 1, pageSize: 8})
+      this.tableData = data.list
+    },
+    updateUser (user) {
+      console.log('updateUser', user)
+      this.$refs.userRegister.show(user)
+    }
   }
 }
 </script>

@@ -53,66 +53,19 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
-  name: 'ManagerProductDetail',
-  computed: {
-    ...mapState('categoryAPI', [
-      'categoryList'
-    ]),
-    headers () {
-      return {
-        'Access-Control-Allow-Origin': '*',
-        'Accept': 'application/json, text/plain, /'
-      }
-    }
-  },
-  mounted () {
-
-  },
+  name: 'ManagerUserDetail',
   data () {
     return {
-      visible: false,
-      imageUrl: '',
-      dialogImageUrl: '',
-      dialogVisible: false,
-      fits: ['fill', 'contain', 'cover', 'none', 'scale-down']
+      visible: true
     }
-  },
-  props: {
-    product: null
   },
   methods: {
     ...mapActions('productAPI', ['setManagerProductPhoto', 'setManagerProduct']),
-    beforeUpdate (file) {
-      this.setManagerProductPhoto(file).then(data => {
-        this.product.mainImage = data.uri
-        this.imageUrl = this.product.imageHost || 'http://119.23.232.89/' + this.product.mainImage
-        console.log('imageUrl', this.imageUrl)
-      })
-    },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
-    saveProduct () {
-      delete this.product.createTime
-      delete this.product.updateTime
-      this.setManagerProduct(this.product).then(data => {
-        console.log(data)
-        this.handleClose()
-      })
-    },
-    cancel () {
-      this.handleClose()
-    },
-    showProduct (data) {
+    show (data) {
       this.visible = true
-      this.product = data
-      this.imageUrl = this.product.imageHost + this.product.mainImage
+      this.user = data
     },
     handleClose () {
       this.$emit('refresh')
@@ -123,28 +76,5 @@ export default {
 </script>
 
 <style scoped>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
 
 </style>
